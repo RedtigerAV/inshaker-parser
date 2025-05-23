@@ -58,7 +58,7 @@ async function main(config: { url: string, output: string, pages: number }): Pro
 
     logger.success(`Parsed ${cocktails.length} cocktails`);
 
-    const [_, saveError] = tryCatch(() => saveJSON(cocktails, config.output));
+    const [_, saveError] = await tryCatch(saveJSON(cocktails, config.output));
 
     if (saveError) {
         logger.error('Error saving cocktails');

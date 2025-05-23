@@ -19,17 +19,20 @@ export function parseCocktailPage(html: string): CocktailDetails {
     const [ingredients, ingredientsError] = tryCatch(() => parseCocktailIngredients($));
     logParseResult(ingredients, ingredientsError, 'Ingredients');
 
-    const [goods, goodsError] = tryCatch(() => parseCocktailGoods($));
-    logParseResult(goods, goodsError, 'Goods');
+    const [tools, toolsError] = tryCatch(() => parseCocktailTools($));
+    logParseResult(tools, toolsError, 'Tools');
 
     const [recipe, recipeError] = tryCatch(() => parseCocktailRecipe($));
     logParseResult(recipe, recipeError, 'Recipe');
 
-    if (!imageUrl || !ingredients || !goods || !recipe) {
+    const [similarCocktailIds, similarCocktailIdsError] = tryCatch(() => parseSimilarCocktailIds($));
+    logParseResult(similarCocktailIds, similarCocktailIdsError, 'Similar Cocktails');
+
+    if (!imageUrl || !ingredients || !tools || !recipe) {
         throw new Error('Invalid cocktail data');
     }
 
-    return { imageUrl, description: description || undefined, tags: tags || [], ingredients, goods, recipe };
+    return { imageUrl, description: description || undefined, tags: tags || [], similarCocktailIds: similarCocktailIds || [], ingredients, tools, recipe };
 }
 
 function logParseResult(result: any, error: any, element: string) {
@@ -83,9 +86,9 @@ function parseCocktailIngredients($: cheerio.CheerioAPI): CocktailIngredient[] |
     return result?.length ? result : null;
 }
 
-function parseCocktailGoods($: cheerio.CheerioAPI): CocktailIngredient[] | null {
-    const { goods } = $.extract({
-        goods: [{
+function parseCocktailTools($: cheerio.CheerioAPI): CocktailIngredient[] | null {
+    const { tools } = $.extract({
+        tools: [{
             selector: ".ingredient-tables table:last-child tr:not(:first-child)",
             value: {
                 ingredientId: {
@@ -99,7 +102,7 @@ function parseCocktailGoods($: cheerio.CheerioAPI): CocktailIngredient[] | null 
         }],
     });
 
-    const result = goods.map(({ ingredientId, name, amount, unit }) => {
+    const result = tools.map(({ ingredientId, name, amount, unit }) => {
         if (!ingredientId || Number.isNaN(ingredientId) || !name || !amount || !unit) {
             throw new Error(`Invalid ingredient data: ${JSON.stringify({ ingredientId, name, amount, unit })}`);
         }
@@ -114,4 +117,25 @@ function parseCocktailRecipe($: cheerio.CheerioAPI): string[] | null {
     const recipe = $(".recipe .steps li").map((_, el) => $(el).text().trim()).get();
 
     return recipe?.length ? recipe : null;
+}
+
+function parseSimilarCocktailIds($: cheerio.CheerioAPI): number[] | null {
+    const similatCocktailLinks = $(".faq-block .faq-block__item:nth-child(2) .faq-block__answer a");
+    const similarCocktailHrefs = (similatCocktailLinks || []).map((_, el) => $(el).attr("href")).get();
+
+    if (!similarCocktailHrefs.length) {
+        return null;
+    }
+
+    const similarCocktailIds = similarCocktailHrefs.map(href => {
+        const hrefWithoutPrefix = href?.replace("/cocktails/", "");
+
+        if (!hrefWithoutPrefix) {
+            throw new Error(`Invalid href of cocktail: ${href}`);
+        }
+
+        return  parseInt(hrefWithoutPrefix, 10);
+    });
+
+    return similarCocktailIds?.length ? similarCocktailIds : null;
 }

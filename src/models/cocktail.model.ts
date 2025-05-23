@@ -12,7 +12,8 @@ export interface CocktailDetails {
     description?: string;
     tags: string[];
     ingredients: CocktailIngredient[];
-    goods: CocktailIngredient[];
+    tools: CocktailIngredient[];
+    similarCocktailIds: number[];
     recipe: string[];
 }
 
