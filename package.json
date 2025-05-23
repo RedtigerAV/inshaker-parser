@@ -1,0 +1,24 @@
+{
+  "name": "inshaker-parser",
+  "version": "1.0.0",
+  "description": "Web scraper for inshaker.com",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "parse:cocktails:ru": "tsx src/parsers/cocktails/index.ts --config=src/parsers/cocktails/configs/config.ru.json",
+    "parse:cocktails:us": "tsx src/parsers/cocktails/index.ts --config=src/parsers/cocktails/configs/config.us.json",
+    "parse:ingredients": "tsx src/parsers/ingredients/parseIngredients.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "cheerio": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.17",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}
