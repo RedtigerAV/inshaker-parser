@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "parse:cocktails:ru": "tsx src/parsers/cocktails/index.ts --config=src/configs/config.ru.json",
-    "parse:cocktails:us": "tsx src/parsers/cocktails/index.ts --config=src/configs/config.us.json",
     "parse:ingredients:ru": "tsx src/parsers/ingredients/index.ts --config=src/configs/config.ru.json",
+    "parse:filters:ru": "tsx src/parsers/filters/index.ts --config=src/configs/config.ru.json",
+    "parse:cocktails:us": "tsx src/parsers/cocktails/index.ts --config=src/configs/config.us.json",
     "parse:ingredients:us": "tsx src/parsers/ingredients/index.ts --config=src/configs/config.us.json"
   },
   "author": "",

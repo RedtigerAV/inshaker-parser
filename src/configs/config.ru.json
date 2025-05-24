@@ -2,6 +2,18 @@
     "url": "https://ru.inshaker.com",
     "pages": 1,
     "outputDir": "/data/ru",
+    "parsedFilters": [
+        {
+            "name": "cocktails",
+            "path": "/cocktails",
+            "outputFile": "raw.cocktails-filters.json"
+        },
+        {
+            "name": "ingredients",
+            "path": "/goods",
+            "outputFile": "raw.ingredients-filters.json"
+        }
+    ],
     "parsedCocktailsFile": "raw.cocktails.json",
     "parsedIngredientsFile": "raw.ingredients.json"
 }
