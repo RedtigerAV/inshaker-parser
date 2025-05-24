@@ -1,3 +1,3 @@
-import { Logger } from "../../utils";
+import { ParserLogger } from "../../utils";
 
-export const logger = new Logger("parseCocktails");
+export const logger = new ParserLogger("cocktails-parser");

@@ -8,41 +8,31 @@ export function parseCocktailPage(html: string): CocktailDetails {
     const $ = cheerio.load(html);
 
     const [imageUrl, imageUrlError] = tryCatch(() => parseCocktailImageUrl($));
-    logParseResult(imageUrl, imageUrlError, 'Image URL');
+    logger.logParseResult(imageUrl, imageUrlError, 'Image URL');
 
     const [description, descriptionError] = tryCatch(() => parseCocktailDescription($));
-    logParseResult(description, descriptionError, 'Description');
+    logger.logParseResult(description, descriptionError, 'Description');
 
     const [tags, tagsError] = tryCatch(() => parseCocktailTags($));
-    logParseResult(tags, tagsError, 'Tags');
+    logger.logParseResult(tags, tagsError, 'Tags');
 
     const [ingredients, ingredientsError] = tryCatch(() => parseCocktailIngredients($));
-    logParseResult(ingredients, ingredientsError, 'Ingredients');
+    logger.logParseResult(ingredients, ingredientsError, 'Ingredients');
 
     const [tools, toolsError] = tryCatch(() => parseCocktailTools($));
-    logParseResult(tools, toolsError, 'Tools');
+    logger.logParseResult(tools, toolsError, 'Tools');
 
     const [recipe, recipeError] = tryCatch(() => parseCocktailRecipe($));
-    logParseResult(recipe, recipeError, 'Recipe');
+    logger.logParseResult(recipe, recipeError, 'Recipe');
 
     const [similarCocktailIds, similarCocktailIdsError] = tryCatch(() => parseSimilarCocktailIds($));
-    logParseResult(similarCocktailIds, similarCocktailIdsError, 'Similar Cocktails');
+    logger.logParseResult(similarCocktailIds, similarCocktailIdsError, 'Similar Cocktails');
 
     if (!imageUrl || !ingredients || !tools || !recipe) {
         throw new Error('Invalid cocktail data');
     }
 
     return { imageUrl, description: description || undefined, tags: tags || [], similarCocktailIds: similarCocktailIds || [], ingredients, tools, recipe };
-}
-
-function logParseResult(result: any, error: any, element: string) {
-    if (!!error) {
-        logger.error(`${element}: parsing error`, 2);
-        logger.error(error.toString(), 2);
-    }
-
-    if (!error && !result) { logger.warning(`${element}: no data parsed`, 2); }
-    if (!error && result) { logger.success(`${element}: parsed`, 2); }
 }
 
 function parseCocktailImageUrl($: cheerio.CheerioAPI): string | undefined {
