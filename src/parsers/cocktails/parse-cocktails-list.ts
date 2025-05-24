@@ -23,7 +23,7 @@ export function parseCocktailsListPage(html: string): CocktailPreview[] {
                 logger.warning(`No preview image for cocktail ${id}: ${name}`);
             }
 
-            cocktails.push({ originalId: id, name, previewImageUrl, link });
+            cocktails.push({ id, name, previewImageUrl, link });
     }
 
     return cocktails;

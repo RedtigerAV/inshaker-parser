@@ -1,0 +1,7 @@
+{
+    "url": "https://us.inshaker.com",
+    "pages": 1,
+    "outputDir": "/data/us",
+    "parsedCocktailsFile": "raw.cocktails.json",
+    "parsedIngredientsFile": "raw.ingredients.json"
+}

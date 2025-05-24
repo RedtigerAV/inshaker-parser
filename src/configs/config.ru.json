@@ -1,0 +1,7 @@
+{
+    "url": "https://ru.inshaker.com",
+    "pages": 1,
+    "outputDir": "/data/ru",
+    "parsedCocktailsFile": "raw.cocktails.json",
+    "parsedIngredientsFile": "raw.ingredients.json"
+}

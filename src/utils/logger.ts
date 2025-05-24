@@ -55,3 +55,15 @@ export class Logger {
         return `[${timestamp}]: ${indent}${emoji} ${message}\n`;
     }
 }
+
+export class ParserLogger extends Logger {
+    public logParseResult(result: any, error: any, parsedElement: string): void {
+        if (error) {
+            this.error(`${parsedElement}: Parsing error`, 2);
+            this.error(error.toString(), 2);
+        }
+
+        if (!error && !result) { this.warning(`${parsedElement}: No data parsed`, 2); }
+        if (!error && result) { this.success(`${parsedElement}: Parsed`, 2); }
+    }
+}

@@ -1,13 +1,26 @@
 import fs from 'node:fs/promises';
+import fsSync from 'node:fs';
 import path from 'node:path';
 import axios from 'axios';
-
-export function delay(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
+import { Config } from "../models";
 
 export function getRandomInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function delay(ms: number): Promise<void>;
+export function delay(msMin: number, msMax: number): Promise<void>;
+export function delay(ms: number, msMax?: number): Promise<void> {
+    if (msMax && msMax < ms) {
+        throw new Error('Max delay must be greater than min delay');
+    }
+
+    if (ms < 0 || (msMax && msMax < 0)) {
+        throw new Error('Delay must be greater than 0');
+    }
+
+    const delayMs = msMax ? getRandomInt(ms, msMax) : ms;
+    return new Promise((resolve) => setTimeout(resolve, delayMs));
 }
 
 export async function fetchHtml(url: string): Promise<string> {
@@ -27,4 +40,12 @@ export async function saveJSON(data: any, filename: string): Promise<void> {
 
     await fs.mkdir(dir, { recursive: true });
     await fs.writeFile(filePath, JSON.stringify(data, null, 2));
+}
+
+export function readConfig(): Config {
+    const args = process.argv.slice(2);
+    const configPath = args[0].split('=')[1];
+    const config = JSON.parse(fsSync.readFileSync(configPath, 'utf8'));
+
+    return config;
 }
