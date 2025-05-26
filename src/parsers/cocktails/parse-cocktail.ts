@@ -40,7 +40,7 @@ function parseCocktailImageUrl($: cheerio.CheerioAPI): string | undefined {
 }
 
 function parseCocktailDescription($: cheerio.CheerioAPI): string | undefined {
-    return $('blockquote.body p')?.text()?.trim();
+    return $('blockquote.body')?.text()?.trim();
 }
 
 function parseCocktailTags($: cheerio.CheerioAPI): string[] | null {

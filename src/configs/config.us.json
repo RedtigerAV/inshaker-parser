@@ -1,6 +1,6 @@
 {
     "url": "https://us.inshaker.com",
-    "pages": 1,
+    "pages": 100,
     "outputDir": "/data/us",
     "parsedFilters": [],
     "parsedCocktailsFile": "raw.cocktails.json",

@@ -37,7 +37,7 @@ function parseIngredientImageUrl($: cheerio.CheerioAPI): string | undefined {
 }
 
 function parseIngredientDescription($: cheerio.CheerioAPI): string | undefined {
-    return $('#goods-text p')?.text()?.trim();
+    return $('#goods-text')?.text()?.trim();
 }
 
 function parseIngredientTags($: cheerio.CheerioAPI): string[] | null {
